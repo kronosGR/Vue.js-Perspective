@@ -10,8 +10,10 @@ Vue.createApp({
   computed: {
     box() {
       return {
-        transform: `perspective(${this.perspective}px) rotateX(${this.rotateX}deg)
-          rotateY(${this.rotateY}deg) rotateZ(${this.rotateZ}deg)
+        transform: `perspective(${this.perspective}px) 
+          rotateX(${this.rotateX}deg)
+          rotateY(${this.rotateY}deg) 
+          rotateZ(${this.rotateZ}deg)
         `,
       };
     },
@@ -23,8 +25,17 @@ Vue.createApp({
       this.rotateY = 0;
       this.rotateZ = 0;
     },
-    copy(){
-      document.execCommand('copy',)
-    }
+    copy() {
+      const el = document.createElement('textarea');
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-99999px';
+      el.value = `transform: ${this.box.transform}`;
+      document.body.appendChild(el);
+      el.select();
+
+      document.execCommand('copy');
+      document.body.removeChild(el)
+    },
   },
 }).mount('#app');
